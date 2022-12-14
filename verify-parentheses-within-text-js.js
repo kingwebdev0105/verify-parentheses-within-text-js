@@ -1,35 +1,19 @@
-function verify(text) {
-    let stack = [];
-    for (const c of text) {
-        if (c === '(' || c == '[' || c == '<') {
-            stack.push(c);
-        } else if (c === ')' || c == ']' || c == '>') {
-            if (stack.length == 0) {
-                return 0;
-            }
-            const popValue = stack.pop();
-            if (c === ')' && popValue != '(') {
-                return 0;
-            } else if (c === ']' && popValue != '[') {
-                return 0;
-            } else if (c === '>' && popValue != '<') {
-                return 0;
-            }
-        }
+function verify(string) {
+  string = string.replace(/[^\(\)\[\]\{\}\<\>]/g, '');
+  let previousString = '';
 
-    }
+  while (string.length !== previousString.length) {
+    previousString = string;
+    string = string.replace(/\(\)|\[\]|\{\}|\<\>/g, '');
+  }
 
-    if (stack.length > 0) {
-        return 0;
-    }
-
-    return 1;
+  return (string.length == 0 ? 1 : 0);
 }
 
-console.log(verify("---(++++)----"));
-console.log(verify(""));
-console.log(verify("before ( middle []) after "));
-console.log(verify(") ("));
-console.log(verify("<(   >)"));
-console.log(verify("(  [   <>  ()  ]  <>  )"));
-console.log(verify("   (      [)"));
+console.log(verify('---(++++)----'));
+console.log(verify(''));
+console.log(verify('before ( middle [] ) after '));
+console.log(verify(') ('));
+console.log(verify('<(   > )'));
+console.log(verify('(  [  <>  ()   ]  <>   )'));
+console.log(verify('   (      [)'));
